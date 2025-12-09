@@ -63,7 +63,10 @@ dependencies {
 chaquopy {
     defaultConfig {
         // Use a managed Python to avoid requiring a local interpreter during build
-        buildPython '3.11'
+        // Let Chaquopy download a supported 3.11.x which is compatible for .pyc compilation
+        buildPython '/opt/homebrew/bin/python3.11'
+        // Ensure Android runtime Python matches buildPython minor version
+        version '3.11'
         pip {
             install 'numpy'
             install 'pandas'
