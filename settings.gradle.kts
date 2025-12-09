@@ -21,3 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "csv-python-to-android"
 include(":app")
+// Force the :app module to use the Groovy build script
+project(":app").buildFileName = "build.gradle"

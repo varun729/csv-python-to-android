@@ -46,7 +46,46 @@ class TransformFragment : Fragment() {
             pickCsv()
         }
 
+        // Auto-run dummy CSV processing on load
+        autoRunDummyProcessing()
+
         return root
+    }
+
+    private fun autoRunDummyProcessing() {
+        val context = requireContext()
+        val cacheDir = context.cacheDir
+
+        binding.progressBar.visibility = View.VISIBLE
+        binding.textSummary.text = "Processing dummy CSV..."
+
+        if (!Python.isStarted()) {
+            Python.start(AndroidPlatform(context))
+        }
+
+        Thread {
+            try {
+                val py = Python.getInstance()
+                val module = py.getModule("process_csv")
+                val result: PyObject = module.callAttr("process_dummy_csv", cacheDir.absolutePath)
+
+                val summary = result.callAttr("get", "summary").toString()
+                val plotPath = result.callAttr("get", "plot_path").toString()
+
+                requireActivity().runOnUiThread {
+                    binding.progressBar.visibility = View.GONE
+                    binding.textSummary.text = summary
+                    val bmp = BitmapFactory.decodeFile(plotPath)
+                    binding.imagePlot.setImageBitmap(bmp)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                requireActivity().runOnUiThread {
+                    binding.progressBar.visibility = View.GONE
+                    binding.textSummary.text = "Error: ${e.message}"
+                }
+            }
+        }.start()
     }
 
     private fun pickCsv() {

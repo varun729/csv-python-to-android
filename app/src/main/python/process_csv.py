@@ -34,10 +34,10 @@ def process_csv(csv_path: str, output_dir: str):
         with open(csv_path, "rb") as f:
             size_bytes = len(f.read())
         summary = (
-            "Pandas/Matplotlib not available yet.\n"
+            "Using basic processing (pandas/matplotlib not bundled).\n"
             f"CSV path: {csv_path}\n"
             f"File size: {size_bytes} bytes\n"
-            "Install pandas/matplotlib via Gradle (Chaquopy) to enable full analysis."
+            "Tip: You can bundle pandas/matplotlib with Chaquopy to enable full analysis."
         )
         # Create a tiny placeholder image
         try:
@@ -91,3 +91,36 @@ def process_csv(csv_path: str, output_dir: str):
         plot_path = ""
 
     return {"summary": summary, "plot_path": plot_path}
+
+
+def process_dummy_csv(output_dir: str):
+    """
+    Create a small dummy CSV in the given output directory and run process_csv on it.
+
+    Returns the same dict structure as process_csv.
+    """
+    os.makedirs(output_dir, exist_ok=True)
+    dummy_path = os.path.join(output_dir, "dummy.csv")
+
+    # Try to create using pandas for consistency; fall back to plain CSV text
+    try:
+        if pd is not None:
+            import pandas as _pd  # ensure DataFrame available even if stubbed
+            df = _pd.DataFrame({
+                "a": [1, 2, 3, 4, 5],
+                "b": [10, 20, 15, 30, 25],
+                "c": [0.5, 0.75, 0.6, 0.9, 0.8],
+            })
+            df.to_csv(dummy_path, index=False)
+        else:
+            raise RuntimeError("pandas not available")
+    except Exception:
+        with open(dummy_path, "w", encoding="utf-8") as f:
+            f.write("a,b,c\n")
+            f.write("1,10,0.5\n")
+            f.write("2,20,0.75\n")
+            f.write("3,15,0.6\n")
+            f.write("4,30,0.9\n")
+            f.write("5,25,0.8\n")
+
+    return process_csv(dummy_path, output_dir)

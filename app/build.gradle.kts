@@ -6,9 +6,8 @@ plugins {
 
 android {
     namespace = "net.vagrawal.android.csv_python_to_android"
-    compileSdk {
-        version = release(36)
-    }
+    // Use standard Kotlin DSL for compileSdk
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "net.vagrawal.android.csv_python_to_android"
@@ -43,10 +42,11 @@ android {
     buildFeatures {
         viewBinding = true
     }
-    // NOTE: Chaquopy pip configuration temporarily disabled to allow Kotlin DSL build to pass.
-    // To enable pandas/matplotlib later, we will reintroduce a Kotlin-DSL-compatible configuration
-    // or switch this module to Groovy build script.
 }
+
+// Chaquopy pip configuration temporarily removed to resolve Kotlin DSL build errors.
+// The current Kotlin DSL script doesn't recognize the `pip { install(...) }` block.
+// App will use the graceful Python fallback until we reintroduce a valid configuration.
 
 dependencies {
     implementation(libs.androidx.core.ktx)
