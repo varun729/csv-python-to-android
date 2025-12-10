@@ -8,12 +8,12 @@ apply plugin: 'com.chaquo.python'
 
 android {
     namespace 'net.vagrawal.android.csv_python_to_android'
-    compileSdk 36
+    compileSdkVersion 36
 
     defaultConfig {
         applicationId 'net.vagrawal.android.csv_python_to_android'
-        minSdk 24
-        targetSdk 36
+        minSdkVersion 24
+        targetSdkVersion 36
         versionCode 1
         versionName '1.0'
 
