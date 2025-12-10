@@ -21,5 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "csv-python-to-android"
 include(":app")
-// Force the :app module to use the Groovy build script
-project(":app").buildFileName = "build.gradle"
+// Use the module's default build script. Kotlin DSL (build.gradle.kts) is present in :app.

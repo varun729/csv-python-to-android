@@ -16,10 +16,10 @@ Reference: https://chaquo.com/chaquopy/doc/current/android.html#android-bytecode
 
 #### How to configure it
 
-This project cannot use a managed Python. You MUST point Chaquopy to a local Python 3.11 executable, and you MUST set the Android runtime to the same minor version (`3.11`). Edit `app/build.gradle` and update the `chaquopy` block as follows:
+This project cannot use a managed Python. You MUST point Chaquopy to a local Python 3.11 executable, and you MUST set the Android runtime to the same minor version (`3.11`). Edit `app/build.gradle.kts` and update the `chaquopy` block as follows (Kotlin DSL):
 
-```gradle
-// app/build.gradle
+```kotlin
+// app/build.gradle.kts
 chaquopy {
     defaultConfig {
         // REQUIRED: Path to your local Python 3.11 executable
@@ -28,16 +28,16 @@ chaquopy {
         //   macOS (Intel/Homebrew): /usr/local/bin/python3.11
         //   pyenv:                  ~/.pyenv/versions/3.11.x/bin/python
         //   Windows:                C:/Users/<you>/AppData/Local/Programs/Python/Python311/python.exe
-        buildPython '/opt/homebrew/bin/python3.11'  // must be 3.11.x
+        buildPython("/opt/homebrew/bin/python3.11") // must be 3.11.x
 
         // Android embedded runtime must match the same minor version
-        version '3.11'
+        version = "3.11"
 
         pip {
-            install 'numpy'
-            install 'pandas'
-            install 'matplotlib'
-            install 'pillow'
+            install("numpy")
+            install("pandas")
+            install("matplotlib")
+            install("pillow")
         }
     }
 }

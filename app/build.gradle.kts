@@ -44,9 +44,24 @@ android {
     }
 }
 
-// Chaquopy pip configuration temporarily removed to resolve Kotlin DSL build errors.
-// The current Kotlin DSL script doesn't recognize the `pip { install(...) }` block.
-// App will use the graceful Python fallback until we reintroduce a valid configuration.
+// Chaquopy configuration (Kotlin DSL)
+chaquopy {
+    defaultConfig {
+        // REQUIRED: Path to your local Python 3.11 executable (project policy: no managed Python)
+        // Adjust this path for your system if different.
+        buildPython("/opt/homebrew/bin/python3.11")
+
+        // Android embedded runtime must match the same minor version.
+        version = "3.11"
+
+        pip {
+            install("numpy")
+            install("pandas")
+            install("matplotlib")
+            install("pillow")
+        }
+    }
+}
 
 dependencies {
     implementation(libs.androidx.core.ktx)
