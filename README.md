@@ -2,6 +2,8 @@
 
 A minimal Android app demonstrating how to bundle and call Python code from Kotlin using Chaquopy. The app includes a sample Python script (`app/src/main/python/process_csv.py`) and bundles scientific packages via `pip`.
 
+App is built with Junie (by JetBrains) in about 1.5 hours with zero coding. Code needs proper review before using in production.
+
 #### Key point: Python version and executable configuration (must match and be supported)
 
 Chaquopy compiles your Python sources to bytecode during the Android build. For this to work, the Python used at build time MUST match the Android runtime’s Python minor version, and it MUST be one of Chaquopy’s supported versions. Using any other minor version (newer or older) will fail.
